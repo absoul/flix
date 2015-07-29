@@ -1,0 +1,18 @@
+<article id="user">
+  <header>
+    <h1><%= @user.name %>'s Profile</h1>
+    <h2>Email: <%= mail_to(@user.email) %></h2>
+  </header>
+
+  <footer>
+  	<nav>
+    	<%= link_to 'Edit Account', edit_user_path(@user), class: 'button' %>
+
+    	<%= link_to 'Delete Account', @user,
+                method: :delete,
+                data: { confirm: 'Are you sure you want to permanently delete your account?' },
+                class: 'button' %>
+
+  </nav>
+</footer>
+</article>
