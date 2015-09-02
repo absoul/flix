@@ -9,7 +9,8 @@ class ApplicationController < ActionController::Base
 
   def require_signin
   	unless current_user
-  		redirect_to new_session_path, notice:"You must be logged into view this page!"
+      session[:intended_url] = request.url
+  		redirect_to new_session_path, notice:"Please log in to view this page!"
   	end
   end
 
@@ -18,5 +19,11 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :current_user
+
+  def current_user?(user)
+    current_user == user
+  end
+
+  helper_method :current_user?
 
 end
