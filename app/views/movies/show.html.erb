@@ -12,7 +12,37 @@
   <h3 class="no-rule">
     <%= @movie.rating %> &bull; <%= @movie.duration %> 
   </h3>
+
+  <h4>
+    Popularity <%= pluralize(@movie.fans.count, "fan")%>
+  </h4>
+  <% if @movie.fans.any? %>
+    <ol>
+      <li>
+        <% @movie.fans.each do |f|%>
+        <%= link_to(f.name, f) %>
+        <% end %>
+      </li> 
+    </ol>
+
+  <% end %>
+ 
+    <% if current_user %>
+
+    <% if @current_favorite%>
+      <%= button_to("Un-fav",movie_favorite_path(@movie, @current_favorite), method: :delete, class: "button unfave")%>
+        <% else %>
+          <%= button_to("Fav",movie_favorites_path(@movie), class: "button fave")%> 
+        <% end %>
+    <% end %>  
   
+  <h3>Genres</h3> 
+    <% @genres.each do |g|%>
+      <strong> <%= g.name %> </strong> |
+    <% end %>
+    <br>
+  
+
   <h3>Cast</h3>
   <p>
     <%= @movie.cast %>
@@ -42,11 +72,14 @@
   <footer>
     <%= link_to "Write Review", new_movie_review_path(@movie), 
                 class: 'button ok review' %>
+    
+    <% if current_user_admin? %> 
     <nav>
       <%= link_to 'Edit', edit_movie_path(@movie), class: 'button' %>
       <%= link_to 'Delete', @movie, 
                   class: 'button',
                   method: :delete, data: { confirm: 'Are you sure?' } %>
     </nav>
+    <% end %>
   </footer>
 </article>
